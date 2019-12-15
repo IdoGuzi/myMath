@@ -29,9 +29,11 @@ public class Polynom implements Polynom_able{
 	 * @param s: is a string represents a Polynom
 	 */
 	public Polynom(String s) {
+		s = s.replaceAll("\\s", "");
 		this.Poly = new ArrayList<Monom>();
 		if (s.length() != 0) {
 			if (s.indexOf('*')!=-1 || s.indexOf('(')!=-1 || s.indexOf(')')!=-1) {
+				System.out.println(s);
 				throw new IllegalArgumentException("invalid input");
 			}
 			int checkPoint = 0;
@@ -45,6 +47,13 @@ public class Polynom implements Polynom_able{
 			Monom n = new Monom(s.substring(checkPoint));
 			this.add(n);
 		}this.add(new Monom(0,0));
+	}
+	
+	@Override
+	public function initFromString(String s) {
+		// TODO Auto-generated method stub
+		Polynom p = new Polynom(s);
+		return p;
 	}
 	
 	@Override
@@ -118,8 +127,7 @@ public class Polynom implements Polynom_able{
 		this.clearZero();
 	}
 
-	@Override
-	public boolean equals(Polynom_able p1) {
+	public boolean equalsPoly(Polynom_able p1) {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		Iterator<Monom> iter1 = p1.iteretor();
@@ -134,6 +142,13 @@ public class Polynom implements Polynom_able{
 			if (flag == false) return false;
 		}
 		return true;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		Polynom p = new Polynom(obj.toString());
+		if (this.equalsPoly(p)) return true;
+		return false;
 	}
 
 	@Override

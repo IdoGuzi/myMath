@@ -55,6 +55,12 @@ public class Monom implements function{
 	 */
 	public boolean isZero() {return this.get_coefficient() == 0;}
 	// ***************** add your code below **********************
+	@Override
+	public function initFromString(String s) {
+		// TODO Auto-generated method stub
+		Monom m = new Monom(s);
+		return m;
+	}
 	/**
 	 * this constructor gets String and cast it to valid math expression.
 	 * It support only simple expressions like ax^b. 
@@ -141,6 +147,15 @@ public class Monom implements function{
 	public boolean equals(Monom m) {
 		if (Math.abs(this.get_power()-m.get_power())<EPSILON && (Math.abs(this.get_coefficient()-m.get_coefficient())<EPSILON)) return true;
 		return false;
+	}
+	
+	@Override
+	public function copy() {
+		// TODO Auto-generated method stub
+		double c = _coefficient;
+		int p = _power;
+		Monom m = new Monom(c, p);
+		return m;
 	}
 	
 	//****************** Private Methods and Data *****************
