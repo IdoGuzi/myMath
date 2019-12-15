@@ -1,18 +1,25 @@
-package Ex1Testing;
+package testers;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Ex1.ComplexFunction;
-import Ex1.Functions_GUI;
-import Ex1.Monom;
-import Ex1.Operation;
-import Ex1.Polynom;
-import Ex1.Range;
-import Ex1.function;
-import Ex1.functions;
+import myMath.ComplexFunction;
+import myMath.Functions_GUI;
+import myMath.Monom;
+import myMath.Operation;
+import myMath.Polynom;
+import myMath.Range;
+import myMath.function;
+import myMath.functions;
 /**
  * Note: minor changes (thanks to Amichai!!)
  * The use of "get" was replaced by iterator!
@@ -59,32 +66,124 @@ class Functions_GUITest {
 		_data = FunctionsFactory();
 	}
 
-	//@Test
+	@Test
 	void testFunctions_GUI() {
-	//	fail("Not yet implemented");
+		ArrayList<function> arr = new ArrayList<function>();
+		ComplexFunction c = new ComplexFunction("plus(-1.0x^4 +2.4x^2 +3.1,+0.1x^5 -1.2999999999999998x +5.0)");
+		arr.add(c);
+		c = new ComplexFunction("plus(div(+1.0x +1.0,mul(mul(+1.0x +3.0,+1.0x -2.0),+1.0x -4.0)),2.0)");
+		arr.add(c);
+		c = new ComplexFunction("div(plus(-1.0x^4 +2.4x^2 +3.1,+0.1x^5 -1.2999999999999998x +5.0),-1.0x^4 +2.4x^2 +3.1)");
+		arr.add(c);
+		c= new ComplexFunction("-1.0x^4 +2.4x^2 +3.1");
+		arr.add(c);
+		Functions_GUI f1 = new Functions_GUI();
+		Functions_GUI f2 = new Functions_GUI(arr);
+		
 	}
 
-	//@Test
+	@Test
 	void testInitFromFile() {
-	//	fail("Not yet implemented");
+		ArrayList<function> arr = new ArrayList<function>();
+		ComplexFunction c= new ComplexFunction("plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5)");
+		arr.add(c);
+		c= new ComplexFunction("plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)");
+		arr.add(c);
+		c= new ComplexFunction("div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),3.1+2.4x^2-x^4)");
+		arr.add(c);
+		c= new ComplexFunction("3.1+2.4x^2-x^4");
+		arr.add(c);
+		c= new ComplexFunction("5-1.2999999999999998x+0.1x^5");
+		arr.add(c);
+		c= new ComplexFunction("max(max(max(max(plus"
+				+ "(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)),"
+				+ "div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5)"
+				+ ",3.1+2.4x^2-x^4)),3.1+2.4x^2-x^4),5-1.2999999999999998x+0.1x^5)");
+		arr.add(c);
+		c= new ComplexFunction("min(min(min(min(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),"
+				+ "plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)),div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),"
+				+ "3.1+2.4x^2-x^4)),3.1+2.4x^2-x^4),5-1.2999999999999998x+0.1x^5)");
+		arr.add(c);
+		Functions_GUI f = new Functions_GUI(arr);
+		Functions_GUI fg = new Functions_GUI();
+		try {
+			f.saveToFile("function_file.txt");
+			fg.initFromFile("function_file.txt");
+		}catch (IOException e) {
+			fail("Error: failed to init from the file.");
+		}
+		if (!f.equals(fg)) {
+			fail("Error: init didn't worked properly.");
+		}
+		String s = System.getProperty("user.dir");
+		Path path = FileSystems.getDefault().getPath(s, "function_file.txt");
+		File t = path.toFile();
+		t.delete();
 	}
 
-	//@Test
+	@Test
 	void testSaveToFile() {
-		
-		
+		ArrayList<function> arr = new ArrayList<function>();
+		ComplexFunction c= new ComplexFunction("plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5)");
+		arr.add(c);
+		c= new ComplexFunction("plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)");
+		arr.add(c);
+		c= new ComplexFunction("div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),3.1+2.4x^2-x^4)");
+		arr.add(c);
+		c= new ComplexFunction("3.1+2.4x^2-x^4");
+		arr.add(c);
+		c= new ComplexFunction("5-1.2999999999999998x+0.1x^5");
+		arr.add(c);
+		c= new ComplexFunction("max(max(max(max(plus"
+				+ "(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)),"
+				+ "div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5)"
+				+ ",3.1+2.4x^2-x^4)),3.1+2.4x^2-x^4),5-1.2999999999999998x+0.1x^5)");
+		arr.add(c);
+		c= new ComplexFunction("min(min(min(min(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),"
+				+ "plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)),div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),"
+				+ "3.1+2.4x^2-x^4)),3.1+2.4x^2-x^4),5-1.2999999999999998x+0.1x^5)");
+		arr.add(c);
+		Functions_GUI fg = new Functions_GUI(arr);
+		try {
+			fg.saveToFile("test.txt");
+		}catch (IOException e) {
+			fail("Error: save to file didn't work.");
+		}
+		Functions_GUI f = new Functions_GUI();
+		try {
+			f.initFromFile("test.txt");
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+		if (!fg.equals(f)) {
+			fail("Error: Function_GUIs objects shouldbe the same.");
+		}
+		String s = System.getProperty("user.dir");
+		Path path = FileSystems.getDefault().getPath(s, "test.txt");
+		File t = path.toFile();
 	}
 
-	//@Test
+	@Test
 	void testDrawFunctions() {
-		//_data.drawFunctions();
-	//	fail("Not yet implemented");
+		try {
+			_data.drawFunctions("GUI_params.txt");
+		}catch (Exception e) {
+			fail("Error: didn't draw.");
+		}
+		try {
+			_data.drawFunctions("");
+		}catch (Exception e) {
+			fail("Error: didn't draw.");
+		}
 	}
 
 	@Test
 	void testDrawFunctionsIntIntRangeRangeInt() {
-		_data.drawFunctions("GUI_params.txt");
-		//fail("Not yet implemented");
+		try {
+			_data.drawFunctions(1000, 600, new Range(-5, 5), new Range(-5,10), 200);
+		}catch (Exception e) {
+			fail("Error: didn't draw.");
+		}
 	}
 	public static functions FunctionsFactory() {
 		functions ans = new Functions_GUI();
@@ -124,4 +223,254 @@ class Functions_GUITest {
 		ans.add(min);		
 		return ans;
 	}
+	
+	@Test
+	void testSize() {
+		Functions_GUI f = new Functions_GUI();
+		if (f.size()!=0) {
+			fail("Error: Function_GUI should be empty.");
+		}
+		function f1 = new Polynom("5x");
+		f.add(f1);
+		if (f.size()!=1) {
+			fail("Error: should have 1 function");
+		}
+	}
+	
+	@Test
+	void testIsEmpty() {
+		Functions_GUI f = new Functions_GUI();
+		if (!f.isEmpty()) {
+			fail("Error: should be empty");
+		}
+	}
+	
+	@Test
+	void testContainsObjects() {
+		Functions_GUI f = new Functions_GUI();
+		function f1 = new Polynom("5x");
+		f.add(f1);
+		if (!f.contains(f1)) {
+			fail("Error: Functions_GUI should contain the Polynom.");
+		}
+	}
+	
+	@Test
+	void testToArray() {
+		Functions_GUI f = new Functions_GUI();
+		function f1 = new Polynom("5x");
+		f.add(f1);
+		Object[] a = new Object[1];
+		a = f.toArray();
+		if (!f1.toString().equalsIgnoreCase((a[0].toString()))) {
+			fail("Error: function sohuld be the same");
+		}
+	}
+	
+	@Test
+	void testToArrayT(){
+		function[] f = new Polynom[1];
+		function f1 = new Polynom("5x");
+		Functions_GUI fg = new Functions_GUI();
+		fg.add(f1);
+		fg.toArray(f);
+		if (!f1.toString().equalsIgnoreCase((f[0].toString()))) {
+			fail("Error: functions should be the same");
+		}
+	}
+	
+	@Test
+	void testAddFunction() {
+		Functions_GUI f = new Functions_GUI();
+		function f1 = new Polynom("5x");
+		if (!f.add(f1)) {
+			fail("Error: didn't add.");
+		}
+		if (f.isEmpty()) {
+			fail("Error:didn't add.");
+		}
+	}
+	
+	
+	@Test
+	void testRemoveFunction() {
+		Functions_GUI f = new Functions_GUI();
+		function f1 = new Polynom("5x");
+		f.add(f1);
+		if (!f.remove(f1)) {
+			fail("Error: didn't remove.");
+		}
+		if (!f.isEmpty()) {
+			fail("Error:didn't remove.");
+		}
+	}
+	
+	@Test
+	void testContainsAll() {
+		Collection<function> f = new ArrayList<function>();
+		ArrayList<function> arr = new ArrayList<function>();
+		ComplexFunction c= new ComplexFunction("plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5)");
+		arr.add(c);
+		c= new ComplexFunction("plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)");
+		arr.add(c);
+		c= new ComplexFunction("div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),3.1+2.4x^2-x^4)");
+		arr.add(c);
+		c= new ComplexFunction("3.1+2.4x^2-x^4");
+		arr.add(c);
+		c= new ComplexFunction("5-1.2999999999999998x+0.1x^5");
+		arr.add(c);
+		c= new ComplexFunction("max(max(max(max(plus"
+				+ "(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)),"
+				+ "div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5)"
+				+ ",3.1+2.4x^2-x^4)),3.1+2.4x^2-x^4),5-1.2999999999999998x+0.1x^5)");
+		arr.add(c);
+		c= new ComplexFunction("min(min(min(min(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),"
+				+ "plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)),div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),"
+				+ "3.1+2.4x^2-x^4)),3.1+2.4x^2-x^4),5-1.2999999999999998x+0.1x^5)");
+		arr.add(c);
+		Functions_GUI fg = new Functions_GUI(arr);
+		c= new ComplexFunction("plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)");
+		f.add(c);
+		c= new ComplexFunction("div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),3.1+2.4x^2-x^4)");
+		f.add(c);
+		c= new ComplexFunction("3.1+2.4x^2-x^4");
+		f.add(c);
+		if (!fg.containsAll(f)) {
+			fail("Error: Functions_GUI should contain all elements of the colletion.");
+		}
+	}
+	
+	@Test
+	void testAddAll() {
+		Collection<function> arr = new ArrayList<function>();
+		ComplexFunction c= new ComplexFunction("plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5)");
+		arr.add(c);
+		c= new ComplexFunction("plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)");
+		arr.add(c);
+		c= new ComplexFunction("div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),3.1+2.4x^2-x^4)");
+		arr.add(c);
+		c= new ComplexFunction("3.1+2.4x^2-x^4");
+		arr.add(c);
+		c= new ComplexFunction("5-1.2999999999999998x+0.1x^5");
+		arr.add(c);
+		c= new ComplexFunction("max(max(max(max(plus"
+				+ "(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)),"
+				+ "div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5)"
+				+ ",3.1+2.4x^2-x^4)),3.1+2.4x^2-x^4),5-1.2999999999999998x+0.1x^5)");
+		arr.add(c);
+		c= new ComplexFunction("min(min(min(min(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),"
+				+ "plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)),div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),"
+				+ "3.1+2.4x^2-x^4)),3.1+2.4x^2-x^4),5-1.2999999999999998x+0.1x^5)");
+		arr.add(c);
+		Functions_GUI fg = new Functions_GUI();
+		if (!fg.addAll(arr)) {
+			fail("Error: Functions_GUI should add all elements of the colletion.");
+		}
+		if (!fg.containsAll(arr)) {
+			fail("Error: Functions_GUI should contain all elements of the colletion.");
+		}
+	}
+	
+	@Test
+	void testRemoveAll() {
+		Functions_GUI f = new Functions_GUI();
+		Collection<function> arr = new ArrayList<function>();
+		ComplexFunction c= new ComplexFunction("plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5)");
+		arr.add(c);
+		f.add(c);
+		c= new ComplexFunction("plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)");
+		arr.add(c);
+		f.add(c);
+		c= new ComplexFunction("div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),3.1+2.4x^2-x^4)");
+		arr.add(c);
+		f.add(c);
+		c= new ComplexFunction("3.1+2.4x^2-x^4");
+		arr.add(c);
+		f.add(c);
+		c= new ComplexFunction("5-1.2999999999999998x+0.1x^5");
+		arr.add(c);
+		f.add(c);
+		c= new ComplexFunction("max(max(max(max(plus"
+				+ "(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)),"
+				+ "div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5)"
+				+ ",3.1+2.4x^2-x^4)),3.1+2.4x^2-x^4),5-1.2999999999999998x+0.1x^5)");
+		arr.add(c);
+		f.add(c);
+		c= new ComplexFunction("min(min(min(min(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),"
+				+ "plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)),div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),"
+				+ "3.1+2.4x^2-x^4)),3.1+2.4x^2-x^4),5-1.2999999999999998x+0.1x^5)");
+		arr.add(c);
+		f.add(c);
+		if (!f.removeAll(arr)) {
+			fail("Error: should remove all element existing in arr from Functions_GUI.");
+		}
+		if (!f.isEmpty()) {
+			fail("Error: should be empty");
+		}
+	}
+	
+	@Test
+	void testRetainAll() {
+		Functions_GUI f = new Functions_GUI();
+		Collection<function> arr = new ArrayList<function>();
+		ComplexFunction c= new ComplexFunction("plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5)");
+		arr.add(c);
+		f.add(c);
+		c= new ComplexFunction("plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)");
+		arr.add(c);
+		f.add(c);
+		c= new ComplexFunction("div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),3.1+2.4x^2-x^4)");
+		arr.add(c);
+		f.add(c);
+		c= new ComplexFunction("3.1+2.4x^2-x^4");
+		arr.add(c);
+		f.add(c);
+		c= new ComplexFunction("5-1.2999999999999998x+0.1x^5");
+		arr.add(c);
+		f.add(c);
+		c= new ComplexFunction("max(max(max(max(plus"
+				+ "(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)),"
+				+ "div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5)"
+				+ ",3.1+2.4x^2-x^4)),3.1+2.4x^2-x^4),5-1.2999999999999998x+0.1x^5)");
+		arr.add(c);
+		f.add(c);
+		c= new ComplexFunction("min(min(min(min(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),"
+				+ "plus(div(x+1,mul(mul(x+3,x-2),x-4)),2)),div(plus(3.1+2.4x^2-x^4,5-1.2999999999999998x+0.1x^5),"
+				+ "3.1+2.4x^2-x^4)),3.1+2.4x^2-x^4),5-1.2999999999999998x+0.1x^5)");
+		arr.add(c);
+		f.add(c);
+		if (!f.retainAll(arr)) {
+			fail("Error: should retain all element existing in arr from Functions_GUI.");
+		}
+		if (!f.containsAll(arr) || !arr.containsAll(f)) {
+			fail("Error: should be equals");
+		}
+	}
+	
+	@Test
+	void testClear() {
+		Functions_GUI f = new Functions_GUI();
+		function f1 = new Polynom("5x");
+		f.add(f1);
+		f.clear();
+		if (!f.isEmpty()) {
+			fail("Error: Functions_GUI should be empty");
+		}
+	}
+	
+	@Test
+	void testEquals() {
+		Functions_GUI f1 = new Functions_GUI();
+		Functions_GUI f2 = new Functions_GUI();
+		if (!f1.equals(f2)) {
+			fail("Error: should be equals.");
+		}
+		function f = new Polynom("342x");
+		f1.add(f);
+		f2.add(f);
+		if (!f1.equals(f2)) {
+			fail("Error: should be equals.");
+		}
+	}
+	
 }

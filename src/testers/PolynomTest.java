@@ -119,7 +119,7 @@ class PolynomTest {
 	}
 
 	@Test
-	void testEqualsPolynom_able() {
+	void testEqualsObject() {
 		String[] s1 = {"3x^3-x^2+1", "0.99999999-1.00000001x^2+2.99999999x^3", "3.000000001x^3-0.99999999x^2+1.000000001"};
 		String[] s2 = {"4x^2-3.2+x", "-3.200000001+1.0000000001x+3.99999999x^2", "4.000000001x^2+0.999999999x-3.1999999999"};
 		Polynom p1 = new Polynom(s1[0]);
@@ -139,6 +139,12 @@ class PolynomTest {
 		}
 		if (!p1.equals(p3)) {
 			fail("Error: Polynoms should be equals. got: p1="+p1.toString()+", p3="+p3.toString());
+		}
+		String s = "3x^2";
+		Polynom p = new Polynom(s);
+		Monom m = new Monom(s);
+		if (!p.equals(m)) {
+			fail("Error: object should be the same.");
 		}
 	}
 
