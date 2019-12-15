@@ -1,0 +1,9 @@
+{
+"Resolution":200,
+"RangeX_min":-10,
+"RangeX_max":10,
+"RangeY_min":-5,
+"RangeY_max":15,
+"Width":1000,
+"Height":600
+}
